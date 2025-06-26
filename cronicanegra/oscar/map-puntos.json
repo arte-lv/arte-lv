@@ -1,0 +1,314 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.0270975298622718,
+          38.00661582816092
+        ]
+      },
+      "properties": {
+        "title": "Gasolinera El Merla",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#333333",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#333333",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "gasolinera"
+      },
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -1.1247179008803982,
+            37.93268991389809
+        ]
+      },
+      "properties": {
+        "title": "Fuensanta",
+        "icon": "[object Object]",
+        "markerTe": "#333333",
+        "anchor": "bottom-center",
+        "offsetY": 1,
+        "offsetX": 4,
+        "labelSty": "plain",
+        "text": "[object Object]",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "[object Object]",
+        "marker-s": 1,
+        "marker-c": "#333333",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "fuensanta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -1.037946097911252,
+            37.991084078761794
+        ]
+      },
+      "properties": {
+        "title": "Los Ramos",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#333333",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#333333",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "losramos"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -1.0548368078146022,
+            37.98220771435765
+        ]
+      },
+      "properties": {
+        "title": "Torreagüera",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#333333",
+        "anchor": "bottom-center",
+        "offsetY": 3,
+        "offsetX": 1,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#333333",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "torreaguera"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.139586143604457,
+          37.887585771441685
+        ]
+      },
+      "properties": {
+        "title": "Puerto de la Cadena",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#000",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#000",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "puerto"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.103475699155922,
+          37.84265295717685
+        ]
+      },
+      "properties": {
+        "title": "Corvera",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#000",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#000",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "corvera"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.9206814143352062,
+          37.58389121324571
+        ]
+      },
+      "properties": {
+        "title": "Escombreras",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#000",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#000",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "escombreras"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.918864584383158,
+          37.610005286457465
+        ]
+      },
+      "properties": {
+        "title": "Alumbres",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#000",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#000",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "alumbres"
+      }
+    },
+        {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.9142344450868052,
+          37.64991354390277
+        ]
+      },
+      "properties": {
+        "title": "Polígono de Los Camachos",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#000",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#000",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "camachos"
+      }
+    },
+       {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.8381888551013219,
+          37.789109937670986
+        ]
+      },
+      "properties": {
+        "title": "San Javier",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#000",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#000",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "sanjavier"
+      }
+    },
+       {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.8381888551013219,
+          37.789109937670986
+        ]
+      },
+      "properties": {
+        "title": "Comisaría de El Carmen (Murcia)",
+        "icon": "{\"id\":\"circle\",\"scale\":1,\"height\":700,\"width\":1000}",
+        "markerTe": "#000",
+        "anchor": "bottom-center",
+        "offsetY": 0,
+        "offsetX": 0,
+        "labelSty": "plain",
+        "text": "{\"bold\":false,\"italic\":false,\"uppercase\":false,\"space\":false,\"color\":\"#333333\",\"fontSize\":14,\"halo\":\"#f2f3f0\"}",
+        "rotate": 0,
+        "locked": "false",
+        "tooltip": "{\"enabled\":false,\"text\":\"\"}",
+        "marker-s": 1,
+        "marker-c": "#000",
+        "descript": "",
+        "marker-s_1": "circle",
+        "id": "comisaria"
+      }
+    }
+  ]
+}
