@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; }
+        #map { width: 100%; height: 95vh; }
+        #legend {
+            background: white;
+            border-radius: 3px;
+            padding: 10px;
+            position: absolute;
+            bottom: 30px;
+            right: 10px;
+            z-index: 1;
+            font-size: 12px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="map">
+    <div id="legend"></div>
+</div>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ0ZS1sYXZlcmRhZCIsImEiOiJja3czZ3d4cm8wNnZyMzFudmF2bm52dG92In0.SrH2rki1z10snbXM2RgvZw';
+
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/arte-laverdad/cm32t3re200xw01qw0c5gdskm',
+        center: [-1.1306714107059486, 37.982677308392084],
+        zoom: 10
+    });
+
+    map.addControl(new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        placeholder: 'Busca por calle',
+        language: 'es'
+    }));
+
+    const colors = ['#4575b4','#74add1','#abd9e9','#e0f3f8','#ffffbf','#fee090','#fdae61','#f46d43','#d73027'];
+
+    function formatNumber(value) {
+        return `${value.toFixed(0)}`;
+    }
+
+    function createLegend(breaks, usedColors) {
+        const legend = document.getElementById('legend');
+        const gradient = usedColors.join(', ');
+        const labels = breaks.map(val => `<span>${Math.round(val)}</span>`).join('');
+
+        legend.innerHTML = `
+            <p><strong>(%) Hogares unipersonales (2023)</strong></p>
+            <div style="height: 10px; width: 100%; background: linear-gradient(to right, ${gradient}); border-radius: 5px;"></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 5px;">${labels}</div>
+        `;
+    }
+
+    function createPopupHTML(properties, datoSeccion) {
+        const cusec = properties.CUSEC;
+        const ultimosCinco = cusec.slice(-5);
+        const resto = cusec.slice(0, -5);
+        
+        const chartId = `chart-${datoSeccion.seccion}`;
+        
+        return `
+            <div>
+                <h2 style="margin: 0; font-size: 16px;">${properties.NMUN}</h2>
+                <p style="font-size: 12px;">Distrito:<b>${resto}</b> Sección:<b>${ultimosCinco}</b></p>
+                <hr>
+                <table style="font-size: 12px; border-collapse: collapse; width: 100%;">
+                  <tr>
+                    <td colspan="2" style="padding: 5px;"><b>Hogares unipersonales en 2023:</b></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="font-size: 24px; padding: 5px; font-weight: bold;">${datoSeccion.h2023}%</td>
+                  </tr>
+                </table>
+                <p style="font-size: 11px; margin-top: 8px;"><b>Histórico 2015-2023:</b></p>
+                <div class="chart-container">
+                    <canvas id="${chartId}"></canvas>
+                </div>                  
+
+                <table style="font-size: 12px; border-collapse: collapse; width: 100%; margin-top: 10px;">
+                  <tr style="border-top: 1px solid #ccc;">
+                     <td style="padding: 5px; width: 50%;"><b>Edad<br>media:</b> 
+                        <p colspan="2" style="font-size: 18px; padding: 5px; font-weight: bold;">${datoSeccion.em2023} años</p>
+                        </td>
+                     <td style="padding: 5px; width: 50%;"><b>Población<br>>65 años</b> 
+                        <p colspan="2" style="font-size: 18px; padding: 5px; font-weight: bold;">${datoSeccion.m2023}%</p>
+                    </td>
+                  </tr>
+                </table>
+                <hr>
+            </div>
+        `;
+    }
+
+    map.on('load', () => {
+        d3.tsv('murcia.csv').then(data => {
+            console.log('Datos cargados:', data.slice(0, 3)); // Ver primeras 3 filas
+            console.log('Columnas:', Object.keys(data[0])); // Ver nombres de columnas
+            
+            const datosPorSeccion = {};
+            data.forEach(d => {
+                const h2023 = parseFloat(d['h2023']);
+                datosPorSeccion[d['seccion']] = h2023;
+            });
+
+            console.log('datosPorSeccion:', datosPorSeccion); // Ver qué se está mapeando
+            console.log('Número de secciones mapeadas:', Object.keys(datosPorSeccion).length);
+
+            const valores = Object.values(datosPorSeccion).filter(v => !isNaN(v)).sort((a, b) => a - b);
+            const min = 10;
+            const max = 40;
+            const breaks = [10, 14, 18, 22, 26, 30, 34, 38, 40];
+            const usedColors = colors.slice(0, breaks.length);
+            createLegend(breaks, usedColors);
+
+            // Construir la expresión match para mapear CUSEC a valores
+            const matchExpression = ['match', ['get', 'CUSEC']];
+            
+            Object.entries(datosPorSeccion).forEach(([seccion, valor]) => {
+                matchExpression.push(seccion);
+                matchExpression.push(valor);
+            });
+            matchExpression.push(0); // valor por defecto
+
+            // Construir la expresión interpolate con valores literales
+            const colorExpression = [
+                'case',
+                ['has', ['get', 'CUSEC'], ['literal', datosPorSeccion]],
+                [
+                    'interpolate',
+                    ['linear'],
+                    matchExpression,
+                    10, '#4575b4',
+                    14, '#74add1',
+                    18, '#abd9e9',
+                    22, '#e0f3f8',
+                    26, '#ffffbf',
+                    30, '#fee090',
+                    34, '#fdae61',
+                    38, '#f46d43',
+                    40, '#d73027'
+                ],
+                'rgba(0,0,0,0)' // Transparente si no tiene dato
+            ];
+
+            map.setPaintProperty('murcia-secciones-censales-0sf12a', 'fill-color', colorExpression);
+            map.setPaintProperty('murcia-secciones-censales-0sf12a', 'fill-opacity', 0.8);
+            map.setPaintProperty('murcia-secciones-censales-0sf12a', 'fill-outline-color', '#333333');
+
+            // --- ADD: highlight layers (fill + outline) placed above the base layer ---
+            const baseLayer = map.getLayer('murcia-secciones-censales-0sf12a');
+            if (baseLayer) {
+                const src = baseLayer.source;
+                const srcLayer = baseLayer['source-layer'];
+
+                // Fill highlight (subtle)
+                map.addLayer({
+                    id: 'murcia-highlight-fill',
+                    type: 'fill',
+                    source: src,
+                    'source-layer': srcLayer,
+                    paint: {
+                        'fill-color': 'rgba(255,255,255,0.15)',
+                        'fill-outline-color': '#000000',
+                        'fill-opacity': 0.5
+                    },
+                    filter: ['==', ['get', 'CUSEC'], ''] // vacío por defecto
+                }, 'murcia-secciones-censales-0sf12a');
+
+                // Outline highlight (thicker border)
+                map.addLayer({
+                    id: 'murcia-highlight-outline',
+                    type: 'line',
+                    source: src,
+                    'source-layer': srcLayer,
+                    paint: {
+                        'line-color': '#000000',
+                        'line-width': 4,
+                        'line-opacity': 0.9
+                    },
+                    filter: ['==', ['get', 'CUSEC'], ''] // vacío por defecto
+                }, 'murcia-highlight-fill');
+            }
+            // --- END highlight layers ---
+            
+            let popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false });
+            let currentChart = null;
+
+            // --- ADD: helper para inicializar el chart del popup ---
+            function initChartForDato(dato) {
+                // pequeño retraso para asegurar que el DOM del popup ya está en el documento
+                setTimeout(() => {
+                    const chartId = `chart-${dato.seccion}`;
+                    const ctx = document.getElementById(chartId);
+                    if (!ctx) return;
+                    // destruir el anterior si existe
+                    if (currentChart) {
+                        try { currentChart.destroy(); } catch (e) {}
+                        currentChart = null;
+                    }
+                    currentChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['2015','2016','2017','2018','2019','2020','2021','2022','2023'],
+                            datasets: [{
+                                label: '(%) Hogares unipersonales',
+                                data: [
+                                    parseFloat(dato.h2015) || 0, parseFloat(dato.h2016) || 0, parseFloat(dato.h2017) || 0,
+                                    parseFloat(dato.h2018) || 0, parseFloat(dato.h2019) || 0, parseFloat(dato.h2020) || 0,
+                                    parseFloat(dato.h2021) || 0, parseFloat(dato.h2022) || 0, parseFloat(dato.h2023) || 0
+                                ],
+                                borderColor: '#d73027',
+                                backgroundColor: 'rgba(215,48,39,0.1)',
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true } }
+                        }
+                    });
+                }, 50);
+            }
+
+            map.on('mousemove', 'murcia-secciones-censales-0sf12a', e => {
+                const properties = e.features[0].properties;
+                const cusec = properties.CUSEC;
+                const dato = data.find(d => d['seccion'] === cusec);
+                if (dato) {
+                    const html = createPopupHTML(properties, dato);
+                    popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
+                    
+                    // Inicializar gráfico (ahora centralizado en la función)
+                    initChartForDato(dato);
+                }
+            });
+
+            map.on('mouseleave', 'murcia-secciones-censales-0sf12a', () => {
+                popup.remove();
+                if (currentChart) {
+                    currentChart.destroy();
+                    currentChart = null;
+                }
+            });
+
+            // --- REPLACE/UPDATE click handler: highlight + centrar en móvil with vertical offset ---
+            map.on('click', 'murcia-secciones-censales-0sf12a', e => {
+                const properties = e.features[0].properties;
+                const cusec = properties.CUSEC;
+                const dato = data.find(d => d['seccion'] === cusec);
+                if (dato) {
+                    // activar filtro de la capa de resaltado
+                    map.setFilter('murcia-highlight-fill', ['==', ['get', 'CUSEC'], cusec]);
+                    map.setFilter('murcia-highlight-outline', ['==', ['get', 'CUSEC'], cusec]);
+
+                    // detectar móvil (ancho o dispositivo táctil)
+                    const isMobile = window.innerWidth <= 600 || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+
+                    if (isMobile) {
+                        // calcular desplazamiento vertical en píxeles (ajústalo si quieres)
+                        const container = map.getContainer();
+                        const height = container.clientHeight || window.innerHeight;
+                        const offsetY = Math.min(200, Math.max(80, Math.round(height * 0.26))); // entre 80 y 200 px, ~26% alto
+
+                        // proyectar el punto, desplazar en píxeles y desproyectar para obtener nuevo centro
+                        const pt = map.project(e.lngLat);
+                        const targetPoint = [pt.x, pt.y - offsetY];
+                        const targetCenter = map.unproject(targetPoint);
+
+                        map.easeTo({ center: targetCenter, duration: 300 });
+                        map.once('moveend', () => {
+                            popup.setLngLat(e.lngLat).setHTML(createPopupHTML(properties, dato)).addTo(map);
+                            initChartForDato(dato);
+                        });
+                    } else {
+                        popup.setLngLat(e.lngLat).setHTML(createPopupHTML(properties, dato)).addTo(map);
+                        initChartForDato(dato);
+                    }
+                }
+            });
+
+            // click en mapa fuera de la capa: limpiar resaltado y popup
+            map.on('click', (e) => {
+                const features = map.queryRenderedFeatures(e.point, { layers: ['murcia-secciones-censales-0sf12a'] });
+                if (!features.length) {
+                    // quitar filtros de resaltado
+                    if (map.getLayer('murcia-highlight-fill')) {
+                        map.setFilter('murcia-highlight-fill', ['==', ['get', 'CUSEC'], '']);
+                    }
+                    if (map.getLayer('murcia-highlight-outline')) {
+                        map.setFilter('murcia-highlight-outline', ['==', ['get', 'CUSEC'], '']);
+                    }
+                    popup.remove();
+                    if (currentChart) {
+                        currentChart.destroy();
+                        currentChart = null;
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
